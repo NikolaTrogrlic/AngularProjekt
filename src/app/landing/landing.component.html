@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="jumbotron text-center text-light bg-dark border rounded">
+        <h1 class="font-weight-bold">Dobrodošli u vaš CroShop</h1>
+        <h2 class="font-italic">"Uz vas za vas"</h2>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 bg-dark border round text-center">
+            <h3 class="font-weight-bold text-light">Pogledajte neke od naših novih proizvoda</h3>
+        </div>
+    </div>
+    <div class="row mt-2" *ngFor="let item of list | slice: -3">
+        <article class="col-sm-8 bg-dark border round text-light mx-auto">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-sm">
+                        <img class="border border-dark" style="max-width: 200px;max-height: 200px;" src="{{item.image}}">
+                    </div>
+                    <div class="col-sm">
+                        <p>Proizvod: <a class="text-light pl-2" [routerLink]="['/predmet/'+item._id]">{{item.name}}</a> </p>
+                        <p>Cijena: {{item.cost| currency}}</p>
+                        <p>Opis: {{item.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row mx-auto">
+        <div class="col text-center text-light bg-dark border rounded">
+            <h1 class="font-weight-bold">Artikli na popustu !</h1>
+        </div>
+    </div>
+    <div class="row mt-2 mx-auto">
+        <div class="col-sm-12 text-center">
+            <button class="btn border ml-3 text-light p-4 bg-dark" (click)="previousPage()">← Prijašnja</button>
+            <button class="btn border ml-3 text-light p-4 bg-dark" (click)="nextPage()">Sljedeća →</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 d-flex flex-wrap align-content-center">
+            <div class="mt-4 mr-auto" *ngFor="let item of list | saleFilter | slice: lowerLimit:upperLimit">
+                <div class="bg-dark border round text-light mx-auto">
+                    <article class="container flex-fill">
+                        <div class="row">
+                            <div class="col p-5">
+                                <img class="border border-dark" style="max-width: 200px;max-height: 200px;" src="{{item.image}}">
+                                <p>Proizvod: <u><a class="text-light pl-2" [routerLink]="['/predmet/'+item._id]">{{item.name}}</a></u> </p>
+                                <p>Pojedinačna cijena: <s>{{item.cost| currency}}</s> <b> {{findSale(item) | currency}}</b></p>
+                                <p>Količina: {{item.amount}}</p>
+                                <p>Cijena za sve: {{(item.amount * findSale(item)) | currency}}</p>
+                                <p>Opis: {{item.description}}</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="bg pt-5">
+    <div class="container text-light bg-dark border text-center p-4">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Registracija</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+            <form [formGroup]="registerForm" (submit)="onRegister()">
+                <fieldset>
+                    <label>Korisničko ime: </label>
+                    <br/>
+                    <input class="ml-2" type="text" formControlName="username"/>
+                    <br/>
+                    <label>Lozinka:</label>
+                    <br/>
+                    <input class="ml-2" type="password" formControlName="password"/>
+                    <br/>
+                    <label>Ponovite lozinku:</label>
+                    <br/>
+                    <input class="ml-2" type="password" formControlName="password2"/>
+                    <br/>
+                    <label>Email:</label>
+                    <br/>
+                    <input type="email" formControlName="email" />
+                    <br/>
+                    <label>Ime:</label>
+                    <br/>
+                    <input type="text" formControlName="ime" />
+                    <br/>
+                    <label>Prezime:</label>
+                    <br/>
+                    <input type="text" formControlName="prezime" />
+                    <br/>
+                    <label for="phone">Broj Telefona:</label>
+                    <br/>
+                    <input type="tel" formControlName="telephone" /> 
+                    <br/>
+                <input class="btn text-light font-weight-bold border mr-2 mt-4" type="submit" value="Register" [disabled]="!registerForm.valid">
+                <button class="btn text-light font-weight-bold border  mt-4" [routerLink]="['/auth/login']">Back to login</button>
+                </fieldset>
+            </form>
+            <span *ngIf="!formValid()" class="text-danger">{{validityMessage}}</span>
+            </div>
+        </div>
+    </div>
+</div>

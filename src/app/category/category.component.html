@@ -1,0 +1,33 @@
+    <div class="container">
+        <div class="row mx-auto">
+            <div class="col text-center text-light bg-dark border rounded">
+                <h1 class="font-weight-bold">{{category | uppercase}}</h1>
+            </div>
+        </div>
+        <div class="row mt-2 mx-auto">
+            <div class="col-sm-12 text-center">
+                <button class="btn border ml-3 text-light p-4 bg-dark" (click)="previousPage()">← Prijašnja</button>
+                <button class="btn border ml-3 text-light p-4 bg-dark" (click)="nextPage()">Sljedeća →</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 d-flex flex-wrap align-content-center">
+                <div class="mt-4 mr-auto" *ngFor="let item of list | categoryFilter:category | slice: lowerLimit:upperLimit">
+                    <div class="bg-dark border round text-light mx-auto">
+                        <article class="container flex-fill">
+                            <div class="row">
+                                <div class="col-sm-6 mx-auto">
+                                    <img class="border border-dark" style="max-width: 200px;max-height: 200px;" src="{{item.image}}">
+                                </div>
+                                <div class="col-sm-6">
+                                    <p>Proizvod: <a class="text-light pl-2" [routerLink]="['/predmet/'+item._id]">{{item.name}}</a> </p>
+                                    <p>Cijena: {{item.cost| currency}}</p>
+                                    <p>Opis: {{item.description}}</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

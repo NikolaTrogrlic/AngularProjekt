@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <div class="border text-center text-light bg-dark">
+        <h1>{{item.name}}</h1>
+        <img src="{{item.image}}" alt="slika predmeta" style="max-width:300px;">
+        <p>Cijena po komadu: {{item.cost | currency}}</p>
+        <p *ngIf="sale.salePercent > 0">Na popustu za: {{itemOnSale(item.cost,sale.salePercent) | currency}}</p>
+        <p></p>
+        <p>Opis: {{item.description}}</p>
+        <p>Količina: {{item.amount}}</p>
+        <p>Profil prodavača: <a [routerLink]="['/profil/'+item.sellerId]">{{seller.ime}} {{seller.prezime}}</a></p>
+        <a class="btn border p-5" (click)="buyMenu = true">Započni kupnju</a>
+        <div *ngIf="buyMenu">
+            <form method="POST">
+                <label for="adresa:">Adresa:</label>
+                <br/>
+                <input type="text" [(ngModel)]="toAdress" required name="adresa">
+                <br/>
+                <label for="amount">Količina:</label>
+                <br/>
+                <input type="number" [(ngModel)]="buyingAmount" max="{{item.amount}}" min="1" required name="amount">
+                <input type="submit" value="Pošalji" (click)="buyItem(item,sale.salePercent)">
+            </form>
+            <p>Kupac sam odgovara za točnost navedenih informacija</p>
+        </div>
+    </div>
+</div>

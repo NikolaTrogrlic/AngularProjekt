@@ -1,0 +1,89 @@
+
+<div class="container-fluid">
+    <div class="text-center text-light">
+        <div class="row bg-dark m-2">
+            <div class="col-sm-12">
+                <h1>Unesi novi artikl:</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 mx-auto m-2">
+                <div class="border border-round p-2 bg-dark">
+                <form method="post">
+                <p>URL slike: <input type="text" [(ngModel)]="newItemParam.image" name="slikai"></p>
+                <p>Ime proizvoda: <input type="text" [(ngModel)]="newItemParam.name" name="proizvodi"></p>
+                <p>Cijena: <input type="number" [(ngModel)]="newItemParam.cost" name="cijenai" min="1"></p>
+                <p>Opis artikla:</p>
+                <textarea [(ngModel)]="newItemParam.description" name="opisi" class="mb-2"></textarea>
+                <p>Količina: <input type="number" min="1" [(ngModel)]="newItemParam.amount" name="količinai"></p>
+                <p>Kategorija: <input type="text" [(ngModel)]="newItemParam.category" name="opisi"></p>
+                <a class="btn pl-3 pr-3 border font-weight-bold" (click)="addItem()">Dodaj</a>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-dark">
+            <div class="col-sm-12">
+                <h2>Svi prodavačevi artikli:</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 my-auto">
+                <button class="btn border ml-3 text-light p-4 bg-dark" (click)="previousPage()">← Prijašnja</button>
+            </div>
+            <div class="col-sm-8 align-content-center mx-auto">
+                <div class="mt-4 p-3" *ngFor="let item of itemList | slice: lowerLimit:upperLimit">
+                    <div *ngIf="editingID != item._id;else editingBlock">
+                        <div class="bg-dark border round text-light">
+                            <img class="border border-dark" style="max-width: 200px;max-height: 200px;" src="{{item.image}}"/>
+                            <a class="btn border p-3" (click)="edit(item)">Uredi</a>
+                            <a class="btn border p-3 m-1" (click)="removeItem(item)">Izbrisi</a>
+                            <p>Proizvod: <a class="text-light pl-2" [routerLink]="['/predmet/'+item._id]">{{item.name}}</a> </p>
+                            <p>Cijena po komadu: {{item.cost| currency}}</p>
+                            <p *ngIf="salePercent(item._id) > 0">
+                                Cijena na popustu: {{itemOnSale(item.cost,salePercent(item._id)) | currency}}
+                            </p>
+                            <p>Na Popustu: {{item.sale}}</p>
+                            <p>Opis: {{item.description}}</p>
+                            <p>Količina: {{item.amount}}</p>
+                        </div>
+                    </div>
+                    <ng-template #editingBlock>
+                        <div class="bg-dark border round text-light mx-auto">
+                            <article class="container-fluid text-center">
+                                <div class="row">
+                                    <div class="col-sm-12 m-2">
+                                        <a class="btn border p-3 mb-4" (click)="finishEditing(item)">Dovrši uređivanje</a>
+                                        <a class="btn border p-3  mb-4" (click)="editingID = ''">Zaustavi bez promjene</a>
+                                        <p>URL slike: <input type="text" [(ngModel)]="editedItem.image" name="slika"></p>
+                                        <p>Proizvod: <input type="text" [(ngModel)]="editedItem.name" name="proizvod"></p>
+                                        <br/>
+                                        <p>Cijena: <input type="number" [(ngModel)]="editedItem.cost" name="cijena"></p>
+                                        <br/>
+                                        <p>Stavi na popust: <input type="checkbox" [(ngModel)]="editedItem.sale" name="popust"></p>
+                                        <br/>
+                                        <p>Opis: <input type="text" [(ngModel)]="editedItem.description" name="opis"></p>
+                                        <br/>
+                                        <p>Količina: <input type="number" min="1" [(ngModel)]="editedItem.amount" name="količina"></p>
+                                        <br/>
+                                        <p>Kategorija: <input type="text" [(ngModel)]="editedItem.category" name="opis"></p>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </ng-template>
+                    <div class="bg-dark border round mx-auto" *ngIf="item.sale">
+                        <p>Dodavanje popusta:</p>
+                        <p>Postotak popusta: <input type="number" [(ngModel)]="newSaleParam.salePercent" name="popust" min="1" max="100"></p>
+                        <p>Cijena s popustom: {{itemOnSale(item.cost,newSaleParam.salePercent) | currency}}</p>
+                        <a class="btn p-2 border mb-2" (click)="addSale(item._id)">Dodaj popust za {{item.name}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 my-auto">
+                <button class="btn border ml-3 text-light p-4 bg-dark" (click)="nextPage()">Sljedeća →</button>
+            </div>
+        </div>
+    </div>
+</div>

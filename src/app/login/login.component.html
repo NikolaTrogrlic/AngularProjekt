@@ -1,0 +1,27 @@
+<div class="bg pt-5">
+    <div class="container text-light bg-dark border text-center p-4">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Login</h1>
+                <p>Za pristup stranici potrebno je imati CroShop racun</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+            <form [formGroup]="loginForm" (submit)="onSubmit()">
+                <fieldset>
+                    <label>Username: </label>
+                    <input class="ml-2" type="text" formControlName="username"/>
+                    <br/>
+                    <label>Password:</label>
+                    <input class="ml-2" type="password" formControlName="password"/>
+                    <br/>
+                <input class="btn text-light font-weight-bold border mr-2 mt-4" type="submit" value="Login" [disabled]="!loginForm.valid">
+                <button class="btn text-light font-weight-bold border  mt-4" [routerLink]="['/auth/register']">Register</button>
+                </fieldset>
+            </form>
+            <span *ngIf="checkState()" class="text-danger">{{validityMessage}}</span>
+            </div>
+        </div>
+    </div>
+</div>

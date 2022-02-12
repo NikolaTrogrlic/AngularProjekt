@@ -1,0 +1,71 @@
+<div class="container text-light">
+    <div class="jumbotron text-center bg-dark border rounded">
+        <h1 class="font-weight-bold">{{user.ime | uppercase}} {{user.prezime | uppercase}}</h1>
+        <h2 class="font-italic">Email: {{user.email}}</h2>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 bg-dark border round text-center">
+            <h4>Podatci o korisniku</h4>
+            <p>Korisničko ime: {{user.username}}</p>
+            <p>Ime: {{user.ime}}</p>
+            <p>Prezime: {{user.prezime}}</p>
+            <p>Email: {{user.email}}</p>
+            <p>Telefon: {{user.telefon}}</p>
+            <p *ngIf="user.razina == 0;else seller">Stanje: Kupac</p>
+            <ng-template #seller>
+                <p>Stanje: Prodavač</p>
+            </ng-template>
+        </div>
+    </div>
+    <div *ngIf="user.razina > 0 && itemList;else orders">
+        <div class="row">
+            <div class="col-sm-12 bg-dark border round text-center">
+                <h4>Korisnikovi Artikli:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 d-flex flex-wrap align-content-center">
+                <div class="mt-4 mr-auto" *ngFor="let item of itemList">
+                    <div class="bg-dark border round text-light mx-auto">
+                        <article class="container flex-fill">
+                            <div class="row">
+                                <div class="col-sm-6 mx-auto">
+                                    <img class="border border-dark" style="max-width: 200px;max-height: 200px;" src="{{item.image}}">
+                                </div>
+                                <div class="col-sm-6">
+                                    <p>Proizvod: <a class="text-light pl-2" [routerLink]="['/predmet/'+item._id]">{{item.name}}</a> </p>
+                                    <p>Cijena: {{item.cost| currency}}</p>
+                                    <p>Opis: {{item.description}}</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #orders>
+        <div *ngIf="sameAsLogged(user._id)">
+            <div class="row">
+                <div class="col-sm-12 bg-dark border round text-center">
+                    <h4>Narudžbe:</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 d-flex flex-wrap align-content-center">
+                    <div class="mt-4 mr-auto" *ngFor="let order of orderList">
+                        <div class="bg-dark border round text-light mx-auto p-5">
+                            <p>Id proizvoda: <a class="text-light pl-2" [routerLink]="['/predmet/'+order.itemID]">{{order.itemID}}</a> </p>
+                            <p>Cijena pri kupnji: {{order.price | currency}}</p>
+                            <p>Količina kupljena: {{order.amount}}</p>
+                            <p>Datum narudžbe: {{order.date | date:'fullDate'}}</p>
+                            <p>Kupljeno na akciji: {{istina(order.boughtOnSale)}}</p>
+                            <p>Addressa za dostaviti: {{order.address}}</p>
+                            <a class="btn border p-3" (click)="deleteOrder(order)">Izbriši</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
